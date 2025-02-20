@@ -11,6 +11,6 @@ export class LoginComponent {
   router = inject(Router)
 
   onLogin() {
-    this.router.navigateByUrl('dashboard1')
+    this.router.navigateByUrl('dashboard2')
   }
 }

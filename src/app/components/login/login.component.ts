@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router, RouterModule } from '@angular/router'
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

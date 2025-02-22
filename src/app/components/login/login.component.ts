@@ -14,16 +14,13 @@ export class LoginComponent {
 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl(),
-    password: new FormControl()
   });
 
   formValue: any;
-
+  responseData: any;
+  
   onLogin() {
-    // this.formValue = this.loginForm.value;
-    // console.log(this.formValue)
-    // console.log(this.formValue)
-    console.log(this.loginForm.value)
+
 
   }
 

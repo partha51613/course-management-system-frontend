@@ -12,11 +12,12 @@
 
             <!-- If LOGINSTEP = 1 -->
 
-            <div div *ngIf="loginStep === 1">
+            <div *ngIf="loginStep === 1">
                 <div class="mb-3">
                     <div class="input-group">
                         <input type="email" id="email" class="form-control" placeholder="Enter your email" name="email"
                             formControlName="email" required>
+
                         <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                     </div>
                 </div>
@@ -27,11 +28,15 @@
                     </div>
                     <a href="#" class="text-decoration-none">Forgot Password?</a>
                 </div> -->
+
+                <button *ngIf="loginForm.get('email')?.valid" type="button" class="btn btn-danger w-100 mb-2" (click)="clearEmail()">Clear Email</button>
                 <button type="button" class="btn btn-primary w-100" (click)="sendOTP()">Send OTP</button>
+
                 <p class="text-center mt-3">Don't have an account? <br />
                     <a routerLink="/sme-registration" class="text-decoration-none">SME Registration</a> | <a
                         routerLink="/ta-registration" class="text-decoration-none">TA Registration</a> <br />
                 </p>
+
             </div>
 
             <!-- If LOGINSTEP = 2 -->

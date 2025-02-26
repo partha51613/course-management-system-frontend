@@ -38,23 +38,28 @@ export class LoginComponent {
   private router = inject(Router); // Remove private if it causes problem
   // private toastr = inject(ToastrService)
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService) { }
+
+  clearEmail() {
+    this.loginForm.get('email')?.setValue('');
+  }
+
 
   // If loginStep === 1 i.e Default State
   sendOTP() {
     console.log('SendOTP Clicked');
-  
+
     const ENDPOINT = '/auth/request-otp';
     this.globalEmail = this.loginForm.get('email')?.value?.trim(); // Trim whitespace for safety
-  
+
     if (!this.globalEmail) {
       this.toastr.error('Please enter a valid email address.');
       return;
     }
-  
+
     const body = { email: this.globalEmail };
     console.log('Request Body:', body);
-  
+
     this.apiservice.postData(ENDPOINT, body).subscribe({
       next: (response) => {
         console.log('Response:', response);
@@ -68,35 +73,48 @@ export class LoginComponent {
       complete: () => console.log('Request completed'),
     });
   }
-  
+
 
   // If loginStep === 2
   verifyOTP() {
     console.log('verifyOTP Clicked');
+
     const ENDPOINT = '/auth/verify-otp';
-    const otpEntered = this.loginForm.get('otpValue')?.value; // Get otp value from frontend
-    console.log(otpEntered);
-    console.log('Email from prev func ' + this.globalEmail);
-    const body = {
-      email: `${this.globalEmail}`,
-      otp: otpEntered,
-    };
-    console.log('Body is ' + JSON.stringify(body));
+    const otpEntered = this.loginForm.get('otpValue')?.value?.trim(); // Trim to avoid accidental spaces
+
+    if (!otpEntered) {
+      this.toastr.error('OTP cannot be empty.');
+      return;
+    }
+
+    if (!this.globalEmail) {
+      console.error('Global email is not set.');
+      this.toastr.error('Something went wrong. Please try again.');
+      return;
+    }
+
+    const body = { email: this.globalEmail, otp: otpEntered };
+    console.log('Request Body:', body);
+
     this.apiservice.postData(ENDPOINT, body).subscribe({
       next: (response) => {
         console.log('Success:', response);
-        window.localStorage.setItem('token', response.token);
-        this.toastr.success(`Logged in successfully`);
-
+        if (response?.token) {
+          window.localStorage.setItem('token', response.token);
+          this.toastr.success('Logged in successfully');
+        } else {
+          this.toastr.error('Invalid response from server.');
+        }
       },
       error: (error) => {
         console.error('Error:', error);
-        this.toastr.error(`Wrong OTP. Please enter correct OTP.`);
-
+        const errorMessage = error?.error?.message || 'Wrong OTP. Please enter the correct OTP.';
+        this.toastr.error(errorMessage);
       },
       complete: () => {
         console.log('Request completed');
       },
     });
   }
+
 }

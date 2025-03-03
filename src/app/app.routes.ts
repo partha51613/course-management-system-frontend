@@ -30,19 +30,19 @@ export const routes: Routes = [
         title: 'Dashboard',
       },
       {
+        path: 'users',
+        component: UsersComponent,
+        title: 'Users',
+      },
+      {
         path: 'courses',
         component: CoursesComponent,
         title: 'Courses',
       },
-      {
-        path: 'users',
-        component: UsersComponent,
-        title: 'Users',
-      }
     ],
   },
   {
-    path: '**', // Catch-all for undefined routes (optional)
-    redirectTo: 'login',
+    path: '**', // Catch-all for undefined routes
+    redirectTo: 'dashboard',
   },
 ];

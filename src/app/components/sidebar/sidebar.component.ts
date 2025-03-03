@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
-  imports: [RouterLink]
+  imports: [RouterLink, CommonModule]
 })
 export class SidebarComponent implements AfterViewInit {
 
@@ -17,7 +17,8 @@ export class SidebarComponent implements AfterViewInit {
     scrollbarClickScroll: true
   };
 
-  constructor(private elRef: ElementRef) {}
+  constructor(private elRef: ElementRef, private router: Router) {}
+
 
   ngAfterViewInit(): void {
     console.log("Sidebar Component Loaded");
@@ -36,5 +37,9 @@ export class SidebarComponent implements AfterViewInit {
     } else {
       console.log("OverlayScrollbars not available");
     }
+  }
+
+  isActive(route: string): boolean {
+    return this.router.url === route;
   }
 }

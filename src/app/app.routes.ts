@@ -5,6 +5,7 @@ import { Dashboard1Component } from './components/dashboard1/dashboard1.componen
 import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
 import { TaRegisterComponent } from './components/ta-register/ta-register.component';
 import { SmeRegisterComponent } from './components/sme-register/sme-register.component';
+import { CoursesComponent } from './components/courses/courses.component';
 
 export const routes: Routes = [
   {
@@ -29,9 +30,9 @@ export const routes: Routes = [
         title: 'Dashboard 1',
       },
       {
-        path: 'dashboard2',
-        component: Dashboard2Component,
-        title: 'Dashboard 2',
+        path: 'courses',
+        component: CoursesComponent,
+        title: 'Courses',
       },
     ],
   },

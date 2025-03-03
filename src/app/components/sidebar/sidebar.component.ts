@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.css'],
+  imports: [RouterLink]
 })
 export class SidebarComponent implements AfterViewInit {
 

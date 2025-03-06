@@ -29,6 +29,13 @@ export class ApiService {
    * @param data Data to be sent in the request body
    */
   postData(endpoint: string, data: any): Observable<any> {
+    if(!data){
+      console.log("no data")
+      return this.http.post(`${this.BASE_URL}${endpoint}`,null).pipe(
+        catchError(this.handleError)
+      );
+    }
+    console.log("yes data")
     return this.http.post(`${this.BASE_URL}${endpoint}`, data).pipe(
       catchError(this.handleError)
     );

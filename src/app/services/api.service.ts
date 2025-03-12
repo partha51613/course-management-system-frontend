@@ -18,10 +18,18 @@ export class ApiService {
    /**
    * Perform a GET request
    */
-   getData(): Observable<any> {
-    return this.http.get(this.BASE_URL).pipe(
-      catchError(this.handleError)
-    );
+  
+  //  getData(): Observable<any> {
+  //   return this.http.get(this.BASE_URL).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  getData(endpoint: string): Observable<any> {
+    console.log("no data")
+      return this.http.get(`${this.BASE_URL}${endpoint}`).pipe(
+        catchError(this.handleError)
+      );
   }
 
   /**

@@ -6,7 +6,7 @@ import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-courses',
-  imports: [CommonModule],
+  imports: [CommonModule, ],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css',
   standalone: true
@@ -15,24 +15,26 @@ import { ApiService } from '../../services/api.service';
 
 export class CoursesComponent {
 
+  courseData: any;
+
     //Injection
     private ApiService = inject(ApiService);
 
-  getCourses(){
-    console.log('getCourses Clicked');
 
+  ngOnInit(){
+    this.getCourses();
+  }
+
+  getCourses(){
     const ENDPOINT = "/courses"
-    this.ApiService.postData(ENDPOINT,null).subscribe({
+    this.ApiService.getData(ENDPOINT).subscribe({
       next: (response) => {
         console.log(response)
+        this.courseData = response.data;
       },
       error: (err) => {
         console.log(err)
       }
     })
   }
-
-  // getCourses(){
-  //   console.log("HI")
-  // }
 }

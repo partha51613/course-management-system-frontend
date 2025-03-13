@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ApiService } from '../../services/api.service';
+
 
 @Component({
   selector: 'app-users',
@@ -8,4 +10,24 @@ import { Component } from '@angular/core';
 })
 export class UsersComponent {
 
+  usersData: any;
+  //Injection
+    private ApiService = inject(ApiService);
+
+
+  ngOnInit(){
+    this.getUserData();
+  }
+  getUserData(){
+    const ENDPOINT = "/users"
+    this.ApiService.getData(ENDPOINT).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.usersData = response.data;
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
 }

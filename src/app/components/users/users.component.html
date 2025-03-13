@@ -1,1 +1,50 @@
-<p>users works!</p>
+<div class="container">
+    <div class="title">
+      <h2>USERS</h2>
+    </div>
+    <div class="row mb-2">
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+      <div class="col-3"></div>
+      <div class="col-3"><button type="submit" class="btn btn-success" (click)="getUserData()">GET USERS</button></div>
+    </div>
+    <table class="table table-dark table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">User id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Alt Phone</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Bank Name</th>
+          <th scope="col">Bank Ac No</th>
+          <th scope="col">Bank IFSC</th>
+          <th scope="col">Bank Address</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of usersData; track $index) {
+          <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone}}</td>
+            @if (user.alt_phone) {
+              <td>{{user.alt_phone}}</td>
+            }@else {
+              <td>N/A</td>
+            }
+            <td>{{user.gender}}</td>
+            <td>{{user.bank_name}}</td>
+            <td>{{user.bank_ac_no}}</td>
+            <td>{{user.bank_ifsc}}</td>
+            <td>{{user.bank_address}}</td>
+
+
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>

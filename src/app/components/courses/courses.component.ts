@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {MatTable, MatTableModule} from '@angular/material/table';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -16,9 +14,16 @@ import { ApiService } from '../../services/api.service';
 export class CoursesComponent {
 
   courseData: any;
+  
+  //Pagination variables
+  pageSize = 10;
+  currentPage = 1;
+  totalPages = 3;
 
-    //Injection
-    private ApiService = inject(ApiService);
+
+
+  //Injection
+  private ApiService = inject(ApiService);
 
 
   ngOnInit(){
@@ -36,5 +41,23 @@ export class CoursesComponent {
         console.log(err)
       }
     })
+  }
+
+  gotoNextPage(){
+    if(this.currentPage==this.totalPages){
+      return
+    }
+    else{
+      this.currentPage = this.currentPage+1;
+    }
+  }
+
+  gotoPrevPage(){
+    if(this.currentPage===1){
+      return
+    }
+    else{
+      this.currentPage = this.currentPage-1;
+    }
   }
 }

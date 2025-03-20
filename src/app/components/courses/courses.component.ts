@@ -18,7 +18,7 @@ export class CoursesComponent {
   //Pagination variables
   rowsPerPage = 3;
   currentPage = 1;
-  totalPages = 5; //need to work on totalpages
+  totalPages ?: any; //need to work on totalpages
   offsetValue = 0;
   
 
@@ -43,8 +43,8 @@ export class CoursesComponent {
 
   calcOffsetValue(){
     this.offsetValue = ( this.currentPage - 1)*this.rowsPerPage;
-    console.log("LIMTT Value is : " +this.rowsPerPage)
-    console.log("Offset Value is : " +this.offsetValue)
+    // console.log("rows per page is : " +this.rowsPerPage)
+    // console.log("Offset Value is : " +this.offsetValue)
   }
 
   getCourses(){
@@ -52,8 +52,18 @@ export class CoursesComponent {
     const ENDPOINT = `/courses?limit=${this.rowsPerPage}&offset=${this.offsetValue}`;
     this.ApiService.getData(ENDPOINT).subscribe({
       next: (response) => {
-        console.log("getCourses() response is" +JSON.stringify(response))
-        this.courseData = response.data;
+        console.log(response)
+        this.courseData = response.data ?? [];
+
+        //Response data length
+        console.log("response length : " + response.data.length);
+        
+        // Update totalPages dynamically based on whether more data exists
+        if (this.courseData.length < this.rowsPerPage) {
+          this.totalPages = this.currentPage; // Last page reached
+        } else {
+          this.totalPages = this.currentPage + 1; // Assume more pages exist
+        }
       },
       error: (err) => {
         console.log("err is" +err)
@@ -62,7 +72,7 @@ export class CoursesComponent {
   }
 
   gotoNextPage(){
-    if(this.currentPage!=this.totalPages){
+    if(this.currentPage<this.totalPages){
       this.currentPage = this.currentPage+1;
     }
  

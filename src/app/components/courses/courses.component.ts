@@ -16,7 +16,7 @@ export class CoursesComponent {
   courseData: any;
   
   //Pagination variables
-  pageLimit = 3;
+  rowsPerPage = 3;
   currentPage = 1;
   totalPages = 5; //need to work on totalpages
   offsetValue = 0;
@@ -42,14 +42,14 @@ export class CoursesComponent {
   // }
 
   calcOffsetValue(){
-    this.offsetValue = ( this.currentPage - 1)*this.pageLimit;
-    console.log("LIMTT Value is : " +this.pageLimit)
+    this.offsetValue = ( this.currentPage - 1)*this.rowsPerPage;
+    console.log("LIMTT Value is : " +this.rowsPerPage)
     console.log("Offset Value is : " +this.offsetValue)
   }
 
   getCourses(){
     this.calcOffsetValue();
-    const ENDPOINT = `/courses?limit=${this.pageLimit}&offset=${this.offsetValue}`;
+    const ENDPOINT = `/courses?limit=${this.rowsPerPage}&offset=${this.offsetValue}`;
     this.ApiService.getData(ENDPOINT).subscribe({
       next: (response) => {
         console.log("getCourses() response is" +JSON.stringify(response))

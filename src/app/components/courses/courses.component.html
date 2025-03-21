@@ -33,12 +33,13 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li class="page-item">
-        <a class="page-link" (click)="gotoPrevPage()">Previous</a>
+        <button class="page-link" [class.disabled]="isPreviousButtonDisabled" (click)="gotoPrevPage()">Previous</button>
       </li>
       <li class="page-item"><a class="page-link" href="#">{{currentPage}}</a></li>
       <li class="page-item">
-        <a class="page-link" (click)="gotoNextPage()">Next</a>
+        <button class="page-link" [class.disabled]="isNextButtonDisabled" (click)="gotoNextPage()">Next</button>
       </li>
     </ul>
   </nav>
+  
 </div>

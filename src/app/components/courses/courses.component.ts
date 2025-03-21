@@ -4,85 +4,70 @@ import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-courses',
-  imports: [CommonModule, ],
+  imports: [CommonModule],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css',
-  standalone: true
+  standalone: true,
 })
-
-
 export class CoursesComponent {
+  courseData: any = [];
 
-  courseData: any;
-  
-  //Pagination variables
-  rowsPerPage = 3;
+  // Pagination variables
+  rowsPerPage = 7;
   currentPage = 1;
-  totalPages ?: any; //need to work on totalpages
   offsetValue = 0;
-  
+  isHasMoreData = true;
+  totalPages ?= 1;
 
+  // Button enable/disable state
+  isPreviousButtonDisabled = true;
+  isNextButtonDisabled = false;
 
-
-  //Injection
+  // Injection
   private ApiService = inject(ApiService);
 
-
-  ngOnInit(){
-    this.getCourses();
+  ngOnInit() {
+    this.calcOnPageChange();
   }
 
-  // ngOnInit() {
-  //   this.route.queryParams.subscribe(params => {
-  //     const limit = params['limit'] ? Number(params['limit']) : 10; // Default to 10
-  //     const offset = params['offset'] ? Number(params['offset']) : 0; // Default to 0
-
-  //     this.getCourses(limit, offset);
-  //   });
-  // }
-
-  calcOffsetValue(){
-    this.offsetValue = ( this.currentPage - 1)*this.rowsPerPage;
-    // console.log("rows per page is : " +this.rowsPerPage)
-    // console.log("Offset Value is : " +this.offsetValue)
+  calcOnPageChange() {
+    this.offsetValue = (this.currentPage - 1) * this.rowsPerPage;
+    this.getCourses()
+    
   }
 
-  getCourses(){
-    this.calcOffsetValue();
+  getCourses() {
     const ENDPOINT = `/courses?limit=${this.rowsPerPage}&offset=${this.offsetValue}`;
     this.ApiService.getData(ENDPOINT).subscribe({
       next: (response) => {
-        console.log(response)
+        console.log(response);
         this.courseData = response.data ?? [];
-
-        //Response data length
-        console.log("response length : " + response.data.length);
         
-        // Update totalPages dynamically based on whether more data exists
-        if (this.courseData.length < this.rowsPerPage) {
-          this.totalPages = this.currentPage; // Last page reached
-        } else {
-          this.totalPages = this.currentPage + 1; // Assume more pages exist
-        }
+        //
+        this.totalPages =  Math.ceil(response.totalCount / this.rowsPerPage);
+        this.isPreviousButtonDisabled = this.currentPage === 1;
+        this.isNextButtonDisabled = this.currentPage == this.totalPages;
+
       },
       error: (err) => {
-        console.log("err is" +err)
-      }
-    })
+        this.courseData = [];
+        console.log('Error fetching courses:', err);
+      },
+    });
   }
 
-  gotoNextPage(){
-    if(this.currentPage<this.totalPages){
-      this.currentPage = this.currentPage+1;
-    }
- 
-    this.getCourses();
+  gotoNextPage() {
+    // if (this.isNextButtonDisabled) return;
+    // Check if there's potentially another page
+    
+    this.currentPage++;
+    this.calcOnPageChange()
   }
 
-  gotoPrevPage(){
-    if(this.currentPage>1){
-      this.currentPage = this.currentPage-1;
-    }
-    this.getCourses();
+  gotoPrevPage() {
+    // if (this.isPreviousButtonDisabled) return;
+    this.currentPage--;
+    this.calcOnPageChange()
+
   }
 }

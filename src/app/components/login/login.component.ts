@@ -103,7 +103,7 @@ export class LoginComponent {
           window.localStorage.setItem('token', response.token);
           this.toastr.success('Logged in successfully');
           // Redirect to dashboard on successful login
-          this.router.navigate(['/dashboard1']);  // Redirect to /dashboard1
+          this.router.navigate(['/dashboard']);  // Redirect to /dashboard1
         } else {
           this.toastr.error('Invalid response from server.');
         }

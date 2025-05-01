@@ -26,7 +26,7 @@ export class LoginComponent {
   // Flags
   isOTPsent = false;
   isOTPVerified = false;
-
+  isOtpButtonClicked = false;
   // Store login form data
   loginForm: FormGroup = new FormGroup({
     email: new FormControl(),
@@ -44,9 +44,14 @@ export class LoginComponent {
     this.loginForm.get('email')?.setValue('');
   }
 
+  goBack(){
+    window.location.reload();
+  }
+
 
   // If loginStep === 1 i.e Default State
   sendOTP() {
+    this.isOtpButtonClicked = true;
     console.log('SendOTP Clicked');
 
     const ENDPOINT = '/auth/request-otp';
@@ -65,6 +70,7 @@ export class LoginComponent {
         console.log('Response:', response);
         this.loginStep = 2;
         this.toastr.success(`OTP sent successfully to ${this.globalEmail}`);
+
       },
       error: () => {
         this.loginForm.get('email')?.reset();

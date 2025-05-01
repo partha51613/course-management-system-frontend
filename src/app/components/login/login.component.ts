@@ -42,6 +42,7 @@ export class LoginComponent {
 
   clearEmail() {
     this.loginForm.get('email')?.setValue('');
+    this.isOtpButtonClicked = false;
   }
 
   goBack(){

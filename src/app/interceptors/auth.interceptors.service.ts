@@ -1,9 +1,18 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import {
+  HttpInterceptorFn
+} from '@angular/common/http';
 
-export const AuthInterceptorsService: HttpInterceptorFn = (req, next) => {
-  const modifiedReq = req.clone({
-    withCredentials: true // Enables sending cookies
-  });
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = localStorage.getItem('token');
 
-  return next(modifiedReq);
+  if (token) {
+    const cloned = req.clone({
+      setHeaders: {
+        token: token
+      }
+    });
+    return next(cloned);
+  }
+
+  return next(req);
 };
